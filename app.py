@@ -1,6 +1,6 @@
 from flask import Flask
 import docker
-from flask import request,render_template
+from flask import request,render_template,redirect
 from flask_bootstrap import Bootstrap
 
 client = docker.from_env()
@@ -28,7 +28,7 @@ def serviceContainers(serviceId):
         replicas = int( request.form['replicas'])        
         mode = docker.types.ServiceMode('replicated', replicas=replicas)
         service.update(mode=mode)
-        redirect("/services", code=302)
+        return redirect("/services", code=302)
 
     tasks = service.tasks()
     return render_template('container/index.html',containers=tasks)
@@ -42,9 +42,6 @@ def containerDetails(containerId):
     container = client.containers.get(containerId)
 
     return render_template('container/details.html',container=container)
-
-
-
 
 
 @app.route('/services/<string:serviceId>/logs/<string:containerId>')
