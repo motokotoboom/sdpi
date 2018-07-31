@@ -39,7 +39,7 @@ def container():
 
 @app.route('/containers/<string:containerId>')
 def containerDetails(containerId):
-    container = client.containers.get(containerId)
+	container = client.containers.get(containerId)
 
     return render_template('container/details.html',container=container)
 
