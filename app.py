@@ -51,11 +51,16 @@ def containerLogs(serviceId,containerId):
 
     logs = []
 
-    serviceLogs = APIClient.service_logs(serviceId,stdout=True,details=True,follow=False)
+    serviceLogs = APIClient.service_logs(serviceId,stdout=True,details=False,follow=False)
 
     for logItem in serviceLogs:
         ts = logItem.decode()
-        if containerId in ts :
+        print (ts)
+        print (containerId[:11])
+
+
+        if containerId[:11] in ts :
+
              logs.append(ts)
     
     return render_template('service/logs.html',logs=logs)
