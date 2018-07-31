@@ -28,6 +28,7 @@ def serviceContainers(serviceId):
         replicas = int( request.form['replicas'])        
         mode = docker.types.ServiceMode('replicated', replicas=replicas)
         service.update(mode=mode)
+        redirect("/services", code=302)
 
     tasks = service.tasks()
     return render_template('container/index.html',containers=tasks)
