@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table">
+    
+    <tr>
+        <th> ID </th>
+        <th> NodeID </th>
+        <th> ServiceID </th>
+        <th> DesiredState/Message/Status </th>
+        <th> Err </th>
+        <th> Logs </th>
+        
+    </tr>
+
+    {% for c in containers %}
+  
+        <tr>
+            
+            <td><a href="/containers/{{  c.Status.ContainerStatus.ContainerID }}">{{ c.ID }}</a></td>
+            <td>{{ c.NodeID }}</td>
+            <td><a href="/services/{{ c.ServiceID }}">{{ c.ServiceID }}</a></td>
+            <td>{{ c.DesiredState }}/{{ c.Status.Message }}/{{ c.Status.State }}</td>
+            <td>{{ c.Status.Err }} </td>
+            <td><a href="/services/{{ c.ServiceID }}/logs/{{ c.ID }}">Container logs</a> </td>
+        </tr>
+
+  {% endfor %} 
+</table>
+{% endblock %}
