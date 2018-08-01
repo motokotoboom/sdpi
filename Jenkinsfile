@@ -12,6 +12,7 @@ pipeline{
             steps{
                 echo 'run flask app'           
                 sh '''
+                    ls -l /var/www/
                     echo $JOB_NAME
                     echo $WORKSPACE
                     echo $JENKINS_HOME
