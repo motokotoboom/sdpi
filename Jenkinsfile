@@ -14,7 +14,12 @@ pipeline{
 
                 sh '''
                     ip address show eth0 | sed -nr 's/.*inet ([^\\/]+).*/\\1/p' > /tmp/host
-                    mkdir /var/www/$JOB_NAME
+                    if [ -d /var/www/$JOB_NAME ]; then 
+                        echo  \"already exists\"
+                    else
+                         mkdir /var/www/$JOB_NAME
+                    fi
+                    
     
                     cp -rf $WORKSPACE /var/www/$JOB_NAME
                     sudo export 
