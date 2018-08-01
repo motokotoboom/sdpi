@@ -28,7 +28,7 @@ pipeline{
                 '''
                 sh '''
                 if [ \"`docker service ls --filter=\"name=sdpi\" | wc -l`\" != \"2\" ]; then
-                docker run -d --name=sdpi -p 5000:5000  --mount type=volume,volume-driver=local,dst=/var/www,volume-opt=type=nfs,volume-opt=device=:/var/www/,volume-opt=o=addr=$(cat /tmp/host),volume-nocopy=true -v /var/run/docker.socket:/var/run/socket motokotoboom/sdpi:latest
+                docker run -d --name=sdpi -p 5000:5000  --mount type=volume,volume-driver=local,dst=/var/www,volume-opt=type=nfs,volume-opt=device=:/var/www/,volume-opt=o=addr=$(cat /tmp/host),volume-nocopy=true -v /var/run/docker.sock:/var/run/docker.sock motokotoboom/sdpi:latest
                 fi
                 '''
             }
