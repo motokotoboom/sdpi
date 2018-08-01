@@ -22,7 +22,7 @@ pipeline{
                     
     
                     cp -rf $WORKSPACE /var/www/$JOB_NAME
-                    sudo export 
+\\
                     echo $JOB_NAME
                     echo $WORKSPACE
                     echo $JENKINS_HOME
