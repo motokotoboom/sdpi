@@ -22,7 +22,6 @@ pipeline{
                     
     
                     cp -rf $WORKSPACE/$JOB_NAME /var/$JOB_NAME
-\\
                     echo $JOB_NAME
                     echo $WORKSPACE
                     echo $JENKINS_HOME
