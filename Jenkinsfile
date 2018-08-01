@@ -21,7 +21,7 @@ pipeline{
                     fi
                     
     
-                    cp -rf $WORKSPACE /var/www/$JOB_NAME
+                    cp -rf $WORKSPACE /var/www/$JOB_NAME/$JOB_NAME
 \\
                     echo $JOB_NAME
                     echo $WORKSPACE
