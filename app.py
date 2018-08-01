@@ -2,7 +2,8 @@ from flask import Flask
 import docker
 from flask import request,render_template,redirect
 from flask_bootstrap import Bootstrap
-
+from threading import Thread
+import queue
 client = docker.from_env()
 APIClient = docker.APIClient(base_url='unix://var/run/docker.sock',timeout=2)
 app = Flask(__name__)
@@ -40,27 +41,34 @@ def container():
 @app.route('/containers/<string:containerId>')
 def containerDetails(containerId):
     container = client.containers.get(containerId)
-
     return render_template('container/details.html',container=container)
 
+def getLogs (g,l):
+    for logItem in g:
+        l.append(logItem.decode())
+ 
+    
 
 @app.route('/services/<string:serviceId>/logs/<string:containerId>')
 def containerLogs(serviceId,containerId):
 
+    allLogs = []
     logs = []
+    logQueue = queue.Queue()
+    serviceLogs = APIClient.service_logs(serviceId,stdout=True,details=True,follow=False)
+    print ('trying to get logs')
+    t = Thread(target=getLogs,args=(serviceLogs,allLogs))
+    t.daemon = True
+    t.start()
+    t.join(1)
+    if t.is_alive():
+        print ('Timeout')
 
-    serviceLogs = APIClient.service_logs(serviceId,stdout=True,details=False,follow=False)
+    for l in allLogs:
+        print (l)
+        if containerId[:11] in l:
+            logs.append(l)
 
-    for logItem in serviceLogs:
-        ts = logItem.decode()
-        print (ts)
-        print (containerId[:11])
-
-
-        if containerId[:11] in ts :
-
-             logs.append(ts)
-    
     return render_template('service/logs.html',logs=logs)
 
 if __name__ == '__main__':
